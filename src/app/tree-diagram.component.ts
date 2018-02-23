@@ -37,9 +37,8 @@ export class TreeDiagramComponent implements OnInit {
 
     private d3: D3;
 
-    margin: any = {top: 20, right: 180, bottom: 30, left: 180};
-    width: number = 660 - this.margin.left - this.margin.right;
-    height : number = 500  - this.margin.top - this.margin.bottom;
+    width: number = 1000;
+    height : number = 500;
 
     constructor(element: ElementRef, d3Service: D3Service) {
         this.d3 = d3Service.getD3();
@@ -54,9 +53,10 @@ export class TreeDiagramComponent implements OnInit {
         let nodePoints:HierarchyPointNode<any> = treemap(nodes);
 
         let svg = d3.select("svg")
-                    .attr("viewBox", `0 0 ${this.width + this.margin.left + this.margin.right} ${this.height}`);
+                    .attr("viewBox", `0 0 ${this.width} ${this.height}`)
+                    .attr("preserveAspectRatio", "xMaxYMin meet");
         
-        let g = svg.append("g").attr("transform", "translate(" + this.margin.left + ", 0)");
+        let g = svg.append("g").attr("transform", "scale(0.8) translate(100, 50)");
         let link = g.selectAll(".link").data(nodePoints.descendants().slice(1))
                     .enter().append("path").attr("class", "link")
                     .attr("d", d => {
@@ -75,9 +75,9 @@ export class TreeDiagramComponent implements OnInit {
         
         node.append("circle").attr("r", 10);
 
-        node.append("text").attr("dy", ".35em").attr("x", d => { return d.children ? -13 : 13})
+        node.append("text").attr("dy", "-1.2em").attr("x", "0")
             .style("text-anchor", d=> {
-                return d.children ? "end": "start";
+                return "middle";
             })
             .text(d => { return d.data.name })
     }

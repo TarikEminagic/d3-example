@@ -5,7 +5,7 @@
   }
   
   :host /deep/ .node text { 
-      font: 12px sans-serif;
+      font: 18px sans-serif;
       word-break: break-all;
     }
   
